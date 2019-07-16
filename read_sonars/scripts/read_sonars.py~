@@ -1,0 +1,118 @@
+import rospy
+from sensor_msgs.msg import Range
+import RPi.GPIO as GPIO
+import time
+import signal
+import sys
+import math
+
+
+# use Raspberry Pi board pin numbers
+GPIO.setmode(GPIO.BCM)
+# time for sensor to settle
+SENSOR_SETTLE_TIME = 0.00001
+# sonic speed (34300 cm/s)
+SONIC_SPEED = 34300
+# list of sonars
+sonars = []
+
+def define_sonars():
+
+    # sonar1 with pin configuration (HEIGHT)
+    sonar1 = {'ID': 1, 'TRIG': 23, 'ECHO': 24 }
+    sonars.append(sonar1) # add to the list
+    # sonar2 with pin configuration (LEFT)
+    sonar2 = {'ID': 2, 'TRIG': 6, 'ECHO': 13 }
+    sonars.append(sonar2) # add to the list
+    # sonar4 with pin configuration
+    #sonar4 = {'ID': 4, 'TRIG': 20, 'ECHO': 16 }
+    #sonars.append(sonar4) # add to the list
+
+def init_sonars():
+
+    if len(sonars) > 0:
+        for sonar_current in sonars:
+            
+            #Sonar's trig pins should be out
+            GPIO.setup( sonar_current['TRIG'], GPIO.OUT )
+            GPIO.output( sonar_current['TRIG'], False)
+
+            #Sonar's echo pins shoud be in
+            GPIO.setup( sonar_current['ECHO'], GPIO.IN )
+
+            time.sleep(0.1)
+
+
+def read_sonar(sonar_id):
+    
+    sonar_current = sonars[sonar_id - 1]
+    pinTrigger = sonar_current['TRIG']
+    pinEcho = sonar_current['ECHO']
+    
+    # set Trigger to HIGH
+    GPIO.output(pinTrigger, True)
+    # set Trigger after 0.01ms to LOW
+    time.sleep(SENSOR_SETTLE_TIME)
+    GPIO.output(pinTrigger, False)
+
+    #startTime = time.time()
+    #stopTime = time.time()
+
+    # save start time
+    while 0 == GPIO.input(pinEcho):
+        pass
+    startTime = time.time()
+
+    # save time of arrival
+    while 1 == GPIO.input(pinEcho):
+        pass
+    stopTime = time.time()
+
+    # time difference between start and arrival
+    TimeElapsed = stopTime - startTime
+    # multiply with the sonic speed and
+    # divide by 2, because there and back
+	altitude = (TimeElapsed * SONIC_SPEED) / 2
+    return altitude
+    
+def publish_sonar():
+    pub = rospy.Publisher('/sonar_down', Range, queue_size=1)
+    
+    #initialize sonars
+    define_sonars()
+	init_sonars()
+    
+    
+    rospy.init_node('sonar_publisher', anonymous=True)
+    rate = rospy.Rate(10) # 10hz
+    current_altitude = Range()
+    while not rospy.is_shutdown():
+        
+        current_altitude.header.seq++
+        current_altitude.header.stamp = rospy.get_rostime()
+        current_altitude.header.header = "sonar_frame"
+
+		current_altitude.min_range = 0.02
+		current_altitude.max_range = 3.5
+		
+		sonar1 = read_sonar(1)
+		sonar2 = read_sonar(2)
+		
+		if sonar1 >= 3.5 or sonar2 > 3.5:
+			current_altitude.range = 3.5
+		else:
+			if sonar1 > sonar2:
+				current_altitude.range = sonar1
+			else:
+				current_altitude.range = sonar2
+	
+        pub.publish(current_altitude)
+        rate.sleep()
+ 
+if __name__ == '__main__':
+    try:
+        publish_sonar()
+    except rospy.ROSInterruptException:
+    	# disable GPIO
+		GPIO.cleanup()
+        pass

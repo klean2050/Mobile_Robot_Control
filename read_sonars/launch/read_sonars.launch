@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+
+<launch>
+	<!-- Front -->
+   <node pkg="read_sonars" type="read_sonars.py" name="read_sonars_f" output="screen"> 
+		<param name="sonar_topic" value="sonar_front" />
+		<param name="sonar_echo" value="20" />
+		<param name="sonar_trigger" value="21" /> 
+	</node>
+	<!-- Front  Left-->	
+   <node pkg="read_sonars" type="read_sonars.py" name="read_sonars_fl" output="screen"> 
+		<param name="sonar_topic" value="sonar_front_left" />
+		<param name="sonar_echo" value="16" />
+		<param name="sonar_trigger" value="19" /> 
+	</node>
+	<!-- Front  Right-->
+   <node pkg="read_sonars" type="read_sonars.py" name="read_sonars_fr" output="screen"> 
+		<param name="sonar_topic" value="sonar_front_right" />
+		<param name="sonar_echo" value="12" />
+		<param name="sonar_trigger" value="13" /> 
+	</node>
+	<!-- Left -->
+   <node pkg="read_sonars" type="read_sonars.py" name="read_sonars_l" output="screen"> 
+		<param name="sonar_topic" value="sonar_left" />
+		<param name="sonar_echo" value="6" />
+		<param name="sonar_trigger" value="25" /> 
+	</node>
+	<!-- Right -->
+   <node pkg="read_sonars" type="read_sonars.py" name="read_sonars_r" output="screen"> 
+		<param name="sonar_topic" value="sonar_right" />
+		<param name="sonar_echo" value="5" />
+		<param name="sonar_trigger" value="24" /> 
+	</node>
+
+</launch>
