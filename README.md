@@ -19,7 +19,9 @@ The algorithm consists of four states based on the sonar's input data:
 ![localization figure](https://i.ibb.co/ggkgW0G/Screenshot-3.png)
 
 3.**read_sonars:** This package reads the sonar values and publishes them to the corresponding topics.
+
 4.**dc_motor_driver:** This package enables the use of the dc motors.
+
 5.**i2c_imu:** This package reads the values obtained from the inertial measurement unit attached to the robot (accelaration, orientation) and publishes them to the corresponding topics. The IMU, firstly, needs to be calibrated. 
 
 6.**random_walk:** The robot moves at a constant linear velocity and turns when a wall is detected by the sonars. It is used in conjuction with the localization package.
