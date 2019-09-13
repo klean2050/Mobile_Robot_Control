@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+
+<launch>
+
+   <node pkg="read_sonars" type="read_sonars.py" name="base_map_broadcaster" output="screen"> </node>
+
+</launch>
