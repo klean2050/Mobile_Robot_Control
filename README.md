@@ -21,6 +21,7 @@ The algorithm consists of four states based on the sonar's input data:
 3.**read_sonars:** This package reads the sonar values and publishes them to the corresponding topics.
 4.**dc_motor_driver:** This package enables the use of the dc motors.
 5.**i2c_imu:** This package reads the values obtained from the inertial measurement unit attached to the robot (accelaration, orientation) and publishes them to the corresponding topics. The IMU, firstly, needs to be calibrated. 
+
 6.**random_walk:** The robot moves at a constant linear velocity and turns when a wall is detected by the sonars. It is used in conjuction with the localization package.
 
 ## Usage
@@ -38,5 +39,7 @@ and finally ```./catkin_ws/src/localization/scripts/localization.py```.
 * The sonar readings are not particularly accurate, as their values flactuate. That's why the above algorithms may fail to work as expected at some trials.
 * Moreover, the sonars may fail to accurately measure a distance from a wall, when its thickness is low. That may cause the robot to take very sharp or even very wide turns.
 * Due to the sonar errors the exact position may not be estimated very accurately, although the right quadrant in the map can be specified.
+
+
 
 ***This project is licensed under the terms of the MIT license.***
