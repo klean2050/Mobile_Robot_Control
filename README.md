@@ -1,7 +1,7 @@
 # Robotics II 2019 Project
 
 Project in NTUA (2018-2019) for the Robotics II course of 8th semester
-Kleanthis Avramidis,  Agelos Kratimenos, Ilias Panagiotaras,  Alexandros Barberis
+# Kleanthis Avramidis,  Agelos Kratimenos, Ilias Panagiotaras,  Alexandros Barberis
 
 ## Description
 The current repository contains an implementation of a wall following and a localization algorithm in the form of ROS packages. The algorithms were tested on a *Raspberry Pi 3 Model B* with *Ubuntu 16.04*. The packages were developed and tested for ROS Kinetic. Supplementary packages for the sonars, the motors, the IMU and a random walking algorithm are also included. Below are the descriptions of the implemented packages in python:
