@@ -1,4 +1,4 @@
-# Differential-Drive Mobile Robot Control
+# Differential-Drive Mobile Robot Control Project
 
 Project in NTUA (2018-2019) for the Robotics II course of 8th semester
 ### Kleanthis Avramidis,  Agelos Kratimenos, Ilias Panagiotaras,  Alexandros Barberis
